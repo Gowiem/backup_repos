@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'backup_repos'
+
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: backup_repos [options]"
+
+  opts.on('-n', '--organization NAME', 'Organization Name') { |v| options[:org_name] = v }
+  opts.on('-t', '--token TOKEN', 'Github Access Token') { |v| options[:access_token] = v }
+
+end.parse!
+
+backup_repos = BackupRepos::BackupRepos.new()
+backup_repos.run(options[:org_name], options[:access_token])
