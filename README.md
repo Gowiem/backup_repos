@@ -10,7 +10,7 @@ This will create a tarbar for every repo in the given organization in the local 
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/backup_repos/fork )
+1. Fork it ( https://github.com/Gowiem/backup_repos/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
