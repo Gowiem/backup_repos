@@ -1,8 +1,10 @@
 require "backup_repos/version"
 require 'rest-client'
 require 'json'
+require 'highline/import'
 
 module BackupRepos
+
   class BackupRepos
     REPOS_TMP_DIR = "/tmp/backup_repos/"
 
@@ -42,6 +44,36 @@ module BackupRepos
         `tar -czpf ./tmp/#{repo.name}.tar.gz ./tmp/#{repo.name}`
         `rm -rf ./tmp/#{repo.name}`
       end
+    end
+  end
+
+
+  class DeleteRepos
+    def run(org_name, auth_token, repos)
+      repos = repos.split(',')
+      repos.each do |repo_name|
+        url = "https://api.github.com/repos/#{org_name}/#{repo_name}?access_token=#{auth_token}"
+
+        if (confirm("Delete Repo: #{repo_name}?")) 
+          RestClient.delete(url)
+        else
+          puts "Skipped deleting Repo: #{repo_name}"
+        end
+      end
+    end
+
+    private
+
+    # https://gist.github.com/botimer/2891186
+    def confirm(prompt, default = false)
+      a = ''
+      s = default ? '[Y/n]' : '[y/N]'
+      d = default ? 'y' : 'n'
+      until %w[y n].include? a
+        a = ask("#{prompt} #{s} ") { |q| q.limit = 1; q.case = :downcase }
+        a = d if a.length == 0
+      end
+      a == 'y'
     end
   end
 end

@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'backup_repos'
+
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: delete_repos [options]"
+
+  opts.on('-n', '--organization NAME', 'Organization Name') { |v| options[:org_name] = v }
+  opts.on('-t', '--token TOKEN', 'Github Access Token') { |v| options[:access_token] = v }
+  opts.on('-r', '--repos REPOS', 'Comma Seperated List of Repo Names') { |v| options[:repos] = v }
+
+end.parse!
+
+delete_repos = BackupRepos::DeleteRepos.new()
+delete_repos.run(options[:org_name], options[:access_token], options[:repos])
